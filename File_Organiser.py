@@ -1,6 +1,8 @@
 import os
 import shutil
 
+# Version 2: Learning dictionaries
+
 folder_path = r"C:\Users\Faique\Downloads"
 print(folder_path)
 
@@ -68,6 +70,9 @@ for item in items:
     
     else:
         print(item, "is a FOLDER")
+
+
+
 
 
 
