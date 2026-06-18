@@ -1,8 +1,6 @@
 import os
 import shutil
 
-# Version 2: Learning dictionaries
-
 folder_path = r"C:\Users\Faique\Downloads"
 print(folder_path)
 
@@ -24,6 +22,24 @@ os.makedirs(zip_folder, exist_ok=True)
 installers_folder = os.path.join(folder_path, "INSTALLERS")
 os.makedirs(installers_folder, exist_ok=True)
 
+extension_map = {
+
+    ".jpg": images_folder,
+    ".jpeg": images_folder,
+    ".png": images_folder,
+
+    ".pdf": pdfs_folder,
+
+    ".mp4": videos_folder,
+    ".mkv": videos_folder,
+    ".avi": videos_folder,
+
+    ".zip": zip_folder,
+
+    ".exe": installers_folder,
+    ".msi": installers_folder,
+}
+
 for item in items:
     print(item)
 
@@ -38,44 +54,23 @@ for item in items:
 
       extension = extension.lower()
 
-      if extension in [".jpg", ".jpeg", ".png"]:
-         print(item, "is an IMAGE")
-         shutil.move(full_path, images_folder)
-         print(item, "has been moved.")
+      destination_folder = extension_map.get(extension)
+      print("Destination Folder:", destination_folder)
 
-      elif extension in [".pdf"]:
-         print(item, "is a PDF")
-         shutil.move(full_path, pdfs_folder)
-         print(item, "has been moved.") 
+      if destination_folder:
 
-      elif extension in [".mp4", ".mkv", ".avi"]:
-         print(item, "is a Video")
-         shutil.move(full_path, videos_folder)
-         print(item, "has been moved.")
+         destination_path = os.path.join(destination_folder, item)
+         if not os.path.exists(destination_path):
 
-      elif extension in [".zip"]:
-         print(item, "is a ZIP ifle")
-         shutil.move(full_path, zip_folder) 
-         print(item, "has been moved") 
-
-         
-      elif extension in [".exe", ".msi"]:
-         destination = os.path.join(installers_folder, item)
-         print(item, "is an INSTALLER")
-
-         if not os.path.exists(destination): 
-            shutil.move(full_path, installers_folder)
-            print(item, "has been moved")
+            shutil.move(full_path, destination_folder)
+            print(item, "has been moved.")
 
          else:
-            print(item, "already exists in INSTALLERS")
+            print(item, "already exists. Skipping...")   
 
 
-
-    else:
-      print(item, "is a FOLDER. Skipping...")   
-
-
+   
+   
 
 
 
