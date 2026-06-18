@@ -27,49 +27,53 @@ os.makedirs(installers_folder, exist_ok=True)
 for item in items:
     print(item)
 
-    full_path = os.path.join(folder_path, item) 
-    print(full_path)
-
-    
-    name, extension = os.path.splitext(item)
-    print("File Name :", name)
-    print("Extension :", extension)
-
-    extension = extension.lower()
-
-    if extension in [".jpg", ".jpeg", ".png"]:
-       print(item, "is an IMAGE")
-       shutil.move(full_path, images_folder)
-       print(item, "has been moved.")
-
-    if extension in [".pdf"]:
-       print(item, "is a PDF")
-       shutil.move(full_path, pdfs_folder)
-       print(item, "has been moved.") 
-
-    if extension in [".mp4", ".mkv", ".avi"]:
-       print(item, "is a Video")
-       shutil.move(full_path, videos_folder)
-       print(item, "has been moved.")
-
-    if extension in [".zip"]:
-       print(item, "is a ZIP ifle")
-       shutil.move(full_path, zip_folder) 
-       print(item, "has been moved") 
-
-       
-    if extension in [".exe", ".msi"]:
-       print(item, "is an INSTALLER")
-       shutil.move(full_path, installers_folder)
-       print(item, "has been moved")
-
-
+    full_path = os.path.join(folder_path, item)
 
     if os.path.isfile(full_path):
-      print(item, "is a FILE")
-    
+      print(full_path)
+
+      name, extension = os.path.splitext(item)
+      print("File Name :", name)
+      print("Extension :", extension)
+
+      extension = extension.lower()
+
+      if extension in [".jpg", ".jpeg", ".png"]:
+         print(item, "is an IMAGE")
+         shutil.move(full_path, images_folder)
+         print(item, "has been moved.")
+
+      elif extension in [".pdf"]:
+         print(item, "is a PDF")
+         shutil.move(full_path, pdfs_folder)
+         print(item, "has been moved.") 
+
+      elif extension in [".mp4", ".mkv", ".avi"]:
+         print(item, "is a Video")
+         shutil.move(full_path, videos_folder)
+         print(item, "has been moved.")
+
+      elif extension in [".zip"]:
+         print(item, "is a ZIP ifle")
+         shutil.move(full_path, zip_folder) 
+         print(item, "has been moved") 
+
+         
+      elif extension in [".exe", ".msi"]:
+         destination = os.path.join(installers_folder, item)
+         print(item, "is an INSTALLER")
+
+         if not os.path.exists(destination): 
+            shutil.move(full_path, installers_folder)
+            print(item, "has been moved")
+
+         else:
+            print(item, "already exists in INSTALLERS")
+
+
+
     else:
-        print(item, "is a FOLDER")
+      print(item, "is a FOLDER. Skipping...")   
 
 
 
