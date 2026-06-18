@@ -1,72 +1,63 @@
 import os
 import shutil
 
-folder_path = r"C:\Users\Faique\Downloads"
-print(folder_path)
+def organize_folder(folder_path):
+   print(folder_path)
 
-items = os.listdir(folder_path)
-print(items)
+   items = os.listdir(folder_path)
+   print(items)
 
-images_folder = os.path.join(folder_path, "Images")
-os.makedirs(images_folder, exist_ok=True)
+   categories = {
 
-pdfs_folder = os.path.join(folder_path, "PDFs")
-os.makedirs(pdfs_folder, exist_ok=True)
+      "Images": [".jpg", ".png", ".jpeg"],
+      
+      "PDFs": [".pdf"],
 
-videos_folder = os.path.join(folder_path, "Videos")
-os.makedirs(videos_folder, exist_ok=True)
+      "Videos": [".mp4", ".mkv", ".avi"],
 
-zip_folder = os.path.join(folder_path, "ZIP files")
-os.makedirs(zip_folder, exist_ok=True)
+      "ZIP files": [".zip"],
 
-installers_folder = os.path.join(folder_path, "INSTALLERS")
-os.makedirs(installers_folder, exist_ok=True)
+      "INSTALLERS": [".exe", ".msi"],
 
-extension_map = {
+   }
 
-    ".jpg": images_folder,
-    ".jpeg": images_folder,
-    ".png": images_folder,
+   extension_map = {}
 
-    ".pdf": pdfs_folder,
+   for folder_name, extensions in categories.items():
 
-    ".mp4": videos_folder,
-    ".mkv": videos_folder,
-    ".avi": videos_folder,
+      folder_path_created = os.path.join(folder_path, folder_name)
+      os.makedirs(folder_path_created, exist_ok=True)
 
-    ".zip": zip_folder,
+      for ext in extensions:
+         extension_map[ext] = folder_path_created
 
-    ".exe": installers_folder,
-    ".msi": installers_folder,
-}
+   for item in items:
+      print(item)
 
-for item in items:
-    print(item)
+      full_path = os.path.join(folder_path, item)
 
-    full_path = os.path.join(folder_path, item)
+      if os.path.isfile(full_path):
+         print(full_path)
 
-    if os.path.isfile(full_path):
-      print(full_path)
+         name, extension = os.path.splitext(item)
+         print("File Name :", name)
+         print("Extension :", extension)
 
-      name, extension = os.path.splitext(item)
-      print("File Name :", name)
-      print("Extension :", extension)
+         extension = extension.lower()
 
-      extension = extension.lower()
+         destination_folder = extension_map.get(extension)
+         print("Destination Folder:", destination_folder)
 
-      destination_folder = extension_map.get(extension)
-      print("Destination Folder:", destination_folder)
+         if destination_folder:
 
-      if destination_folder:
+            destination_path = os.path.join(destination_folder, item)
+            if not os.path.exists(destination_path):
 
-         destination_path = os.path.join(destination_folder, item)
-         if not os.path.exists(destination_path):
+               shutil.move(full_path, destination_folder)
+               print(item, "has been moved.")
 
-            shutil.move(full_path, destination_folder)
-            print(item, "has been moved.")
-
-         else:
-            print(item, "already exists. Skipping...")   
+            else:
+               print(item, "already exists. Skipping...")   
 
 
    
